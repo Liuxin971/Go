@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html  lang="en"  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> 
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+            <div>
+                <h2 class="title" style="text-align: center;">
+                    <b>{{ noteData.notebookTitle }}</b>
+                   <span></span> <span style="font-size:16px;">时间：{{ noteData.notebookRegdate | formatDate}}</span>
+                </h2>
+
+            </div>
+            <div v-html="noteData.notebookContent ">
+            </div>
+        </div>
+    </div>
+    <script  th:inline="javascript" >
+
+
+
+
+        Vue.filter('formatDate', function (dataStr) {
+            console.log('a')
+            let dt = new Date(dataStr);
+            let y = dt.getFullYear()
+            let m = dt.getMonth() + 1
+            let d = dt.getDate()
+            return `${y}年${m}月${d}日`
+        })
+        var app = new Vue({
+            el: '#app',
+            data: {
+                noteData: {
+                    notebookContent: ''
+                }
+            },
+            created() {
+                var id=[[${id}]]
+
+
+                axios.get('http://106.14.145.180:8081/note/user/getOneShareNote/'+id).then(res => {
+                    console.log(res)
+                    res = res.data
+                    let {
+                        status,
+                        msg,
+                        data
+                    } = res
+                    this.noteData = data
+                     this.noteData.notebookContent = marked(data.notebookContent)
+                    // this.noteData.notebookContent = data.notebokContent
+
+                })
+            }
+        })
+    </script>
+</body>
+
+</html>

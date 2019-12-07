@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html  lang="en"  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3" >
+<head>
+<meta charset='UTF-8'>
+<title>实训</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body>
+<p>Click <a th:href="@{/hello}">here</a> to see a greeting. </p>
+
+<h3>作者：</h3>
+<a th:text="${ed}"></a>
+<h3>头像：</h3>
+<img th:src="@{${img}}" />
+<h3>时间：</h3>
+<a th:text="${date}"></a>
+<h3>内容：</h3>
+<!--<div class="date"> <a  id="d"  th:utext="${content}"></a></div>-->
+<!--<div class="date"> <a  id="d"  th:utext=""></a></div>-->
+<a id="ds"></a>
+</body>
+
+
+
+<script th:inline="javascript">
+      var data=[[${content}]]
+      var  datas= marked(data)
+
+
+</script>
+
+
+
+
+
+</html>

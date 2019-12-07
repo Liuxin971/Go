@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sx.ybj.mapper.NotebookMapper" >
+  <resultMap id="BaseResultMap" type="com.sx.ybj.pojo.Notebook" >
+    <id column="notebook_id" property="notebookId" jdbcType="INTEGER" />
+    <result column="notebook_title" property="notebookTitle" jdbcType="CHAR" />
+    <result column="notebook_content" property="notebookContent" jdbcType="VARCHAR" />
+    <result column="notebook_abstract" property="notebookAbstract" jdbcType="VARCHAR" />
+    <result column="notebook_regdate" property="notebookRegdate" jdbcType="DATE" />
+    <result column="notebook_modfiy" property="notebookModfiy" jdbcType="DATE" />
+    <result column="notebook_access" property="notebookAccess" jdbcType="INTEGER" />
+    <result column="notebook_state" property="notebookState" jdbcType="INTEGER" />
+    <result column="notebook_sharing" property="notebookSharing" jdbcType="INTEGER" />
+    <result column="notebook_activity_note" property="notebookActivityNote" jdbcType="INTEGER" />
+    <result column="categorize_id" property="categorizeId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="notebook_url" property="notebookUrl" jdbcType="VARCHAR" />
+    <result column="notebook_collect" property="notebookCollect" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    notebook_id, notebook_title, notebook_content, notebook_abstract, notebook_regdate, 
+    notebook_modfiy, notebook_access, notebook_state, notebook_sharing, notebook_activity_note, 
+    categorize_id, user_id, notebook_url, notebook_collect
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sx.ybj.pojo.NotebookExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from notebook
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from notebook
+    where notebook_id = #{notebookId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from notebook
+    where notebook_id = #{notebookId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sx.ybj.pojo.NotebookExample" >
+    delete from notebook
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sx.ybj.pojo.Notebook" >
+    <selectKey resultType="java.lang.Integer" keyProperty="notebookId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into notebook (notebook_title, notebook_content, notebook_abstract, 
+      notebook_regdate, notebook_modfiy, notebook_access, 
+      notebook_state, notebook_sharing, notebook_activity_note, 
+      categorize_id, user_id, notebook_url, 
+      notebook_collect)
+    values (#{notebookTitle,jdbcType=CHAR}, #{notebookContent,jdbcType=VARCHAR}, #{notebookAbstract,jdbcType=VARCHAR}, 
+      #{notebookRegdate,jdbcType=DATE}, #{notebookModfiy,jdbcType=DATE}, #{notebookAccess,jdbcType=INTEGER}, 
+      #{notebookState,jdbcType=INTEGER}, #{notebookSharing,jdbcType=INTEGER}, #{notebookActivityNote,jdbcType=INTEGER}, 
+      #{categorizeId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{notebookUrl,jdbcType=VARCHAR}, 
+      #{notebookCollect,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sx.ybj.pojo.Notebook" >
+    <selectKey resultType="java.lang.Integer" keyProperty="notebookId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into notebook
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="notebookTitle != null" >
+        notebook_title,
+      </if>
+      <if test="notebookContent != null" >
+        notebook_content,
+      </if>
+      <if test="notebookAbstract != null" >
+        notebook_abstract,
+      </if>
+      <if test="notebookRegdate != null" >
+        notebook_regdate,
+      </if>
+      <if test="notebookModfiy != null" >
+        notebook_modfiy,
+      </if>
+      <if test="notebookAccess != null" >
+        notebook_access,
+      </if>
+      <if test="notebookState != null" >
+        notebook_state,
+      </if>
+      <if test="notebookSharing != null" >
+        notebook_sharing,
+      </if>
+      <if test="notebookActivityNote != null" >
+        notebook_activity_note,
+      </if>
+      <if test="categorizeId != null" >
+        categorize_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="notebookUrl != null" >
+        notebook_url,
+      </if>
+      <if test="notebookCollect != null" >
+        notebook_collect,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="notebookTitle != null" >
+        #{notebookTitle,jdbcType=CHAR},
+      </if>
+      <if test="notebookContent != null" >
+        #{notebookContent,jdbcType=VARCHAR},
+      </if>
+      <if test="notebookAbstract != null" >
+        #{notebookAbstract,jdbcType=VARCHAR},
+      </if>
+      <if test="notebookRegdate != null" >
+        #{notebookRegdate,jdbcType=DATE},
+      </if>
+      <if test="notebookModfiy != null" >
+        #{notebookModfiy,jdbcType=DATE},
+      </if>
+      <if test="notebookAccess != null" >
+        #{notebookAccess,jdbcType=INTEGER},
+      </if>
+      <if test="notebookState != null" >
+        #{notebookState,jdbcType=INTEGER},
+      </if>
+      <if test="notebookSharing != null" >
+        #{notebookSharing,jdbcType=INTEGER},
+      </if>
+      <if test="notebookActivityNote != null" >
+        #{notebookActivityNote,jdbcType=INTEGER},
+      </if>
+      <if test="categorizeId != null" >
+        #{categorizeId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="notebookUrl != null" >
+        #{notebookUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="notebookCollect != null" >
+        #{notebookCollect,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sx.ybj.pojo.NotebookExample" resultType="java.lang.Integer" >
+    select count(*) from notebook
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update notebook
+    <set >
+      <if test="record.notebookId != null" >
+        notebook_id = #{record.notebookId,jdbcType=INTEGER},
+      </if>
+      <if test="record.notebookTitle != null" >
+        notebook_title = #{record.notebookTitle,jdbcType=CHAR},
+      </if>
+      <if test="record.notebookContent != null" >
+        notebook_content = #{record.notebookContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.notebookAbstract != null" >
+        notebook_abstract = #{record.notebookAbstract,jdbcType=VARCHAR},
+      </if>
+      <if test="record.notebookRegdate != null" >
+        notebook_regdate = #{record.notebookRegdate,jdbcType=DATE},
+      </if>
+      <if test="record.notebookModfiy != null" >
+        notebook_modfiy = #{record.notebookModfiy,jdbcType=DATE},
+      </if>
+      <if test="record.notebookAccess != null" >
+        notebook_access = #{record.notebookAccess,jdbcType=INTEGER},
+      </if>
+      <if test="record.notebookState != null" >
+        notebook_state = #{record.notebookState,jdbcType=INTEGER},
+      </if>
+      <if test="record.notebookSharing != null" >
+        notebook_sharing = #{record.notebookSharing,jdbcType=INTEGER},
+      </if>
+      <if test="record.notebookActivityNote != null" >
+        notebook_activity_note = #{record.notebookActivityNote,jdbcType=INTEGER},
+      </if>
+      <if test="record.categorizeId != null" >
+        categorize_id = #{record.categorizeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.notebookUrl != null" >
+        notebook_url = #{record.notebookUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.notebookCollect != null" >
+        notebook_collect = #{record.notebookCollect,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update notebook
+    set notebook_id = #{record.notebookId,jdbcType=INTEGER},
+      notebook_title = #{record.notebookTitle,jdbcType=CHAR},
+      notebook_content = #{record.notebookContent,jdbcType=VARCHAR},
+      notebook_abstract = #{record.notebookAbstract,jdbcType=VARCHAR},
+      notebook_regdate = #{record.notebookRegdate,jdbcType=DATE},
+      notebook_modfiy = #{record.notebookModfiy,jdbcType=DATE},
+      notebook_access = #{record.notebookAccess,jdbcType=INTEGER},
+      notebook_state = #{record.notebookState,jdbcType=INTEGER},
+      notebook_sharing = #{record.notebookSharing,jdbcType=INTEGER},
+      notebook_activity_note = #{record.notebookActivityNote,jdbcType=INTEGER},
+      categorize_id = #{record.categorizeId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      notebook_url = #{record.notebookUrl,jdbcType=VARCHAR},
+      notebook_collect = #{record.notebookCollect,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sx.ybj.pojo.Notebook" >
+    update notebook
+    <set >
+      <if test="notebookTitle != null" >
+        notebook_title = #{notebookTitle,jdbcType=CHAR},
+      </if>
+      <if test="notebookContent != null" >
+        notebook_content = #{notebookContent,jdbcType=VARCHAR},
+      </if>
+      <if test="notebookAbstract != null" >
+        notebook_abstract = #{notebookAbstract,jdbcType=VARCHAR},
+      </if>
+      <if test="notebookRegdate != null" >
+        notebook_regdate = #{notebookRegdate,jdbcType=DATE},
+      </if>
+      <if test="notebookModfiy != null" >
+        notebook_modfiy = #{notebookModfiy,jdbcType=DATE},
+      </if>
+      <if test="notebookAccess != null" >
+        notebook_access = #{notebookAccess,jdbcType=INTEGER},
+      </if>
+      <if test="notebookState != null" >
+        notebook_state = #{notebookState,jdbcType=INTEGER},
+      </if>
+      <if test="notebookSharing != null" >
+        notebook_sharing = #{notebookSharing,jdbcType=INTEGER},
+      </if>
+      <if test="notebookActivityNote != null" >
+        notebook_activity_note = #{notebookActivityNote,jdbcType=INTEGER},
+      </if>
+      <if test="categorizeId != null" >
+        categorize_id = #{categorizeId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="notebookUrl != null" >
+        notebook_url = #{notebookUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="notebookCollect != null" >
+        notebook_collect = #{notebookCollect,jdbcType=INTEGER},
+      </if>
+    </set>
+    where notebook_id = #{notebookId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sx.ybj.pojo.Notebook" >
+    update notebook
+    set notebook_title = #{notebookTitle,jdbcType=CHAR},
+      notebook_content = #{notebookContent,jdbcType=VARCHAR},
+      notebook_abstract = #{notebookAbstract,jdbcType=VARCHAR},
+      notebook_regdate = #{notebookRegdate,jdbcType=DATE},
+      notebook_modfiy = #{notebookModfiy,jdbcType=DATE},
+      notebook_access = #{notebookAccess,jdbcType=INTEGER},
+      notebook_state = #{notebookState,jdbcType=INTEGER},
+      notebook_sharing = #{notebookSharing,jdbcType=INTEGER},
+      notebook_activity_note = #{notebookActivityNote,jdbcType=INTEGER},
+      categorize_id = #{categorizeId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      notebook_url = #{notebookUrl,jdbcType=VARCHAR},
+      notebook_collect = #{notebookCollect,jdbcType=INTEGER}
+    where notebook_id = #{notebookId,jdbcType=INTEGER}
+  </update>
+</mapper>

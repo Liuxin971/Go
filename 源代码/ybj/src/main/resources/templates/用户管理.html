@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>用户管理</title>
+    <!--<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="/note/static/css/bootstrap.min.css">
+    <!--<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>-->
+    <!--<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+    <script src="/note/static/js/jquery.min.js"></script>
+    <script src="/note/static/js/vue-2.4.0.js"></script>
+    <script src="/note/static/js/vue-resource-1.3.4.js"></script>
+    <!--<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">-->
+</head>
+
+</head>
+<style>
+    .table {
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .table th {
+        text-align: center;
+
+    }
+
+    .table.title {
+        text-align: center;
+
+    }
+
+    .panel-heading {
+        overflow: auto;
+    }
+
+    .h3 {
+        float: left;
+    }
+
+    .btn-group {
+
+        margin: 0 auto;
+    }
+
+    a:link,
+    a:visited {
+        text-decoration: none;
+    }
+
+    .row {
+        float: right;
+    }
+
+    .top {
+        height: 50px;
+        width: 100%;
+        border: 1px;
+        position: relative;
+    }
+
+    .top_right {
+        float: right;
+        margin: 0 auto;
+        position: absolute;
+        top: 10px;
+        right: 50px;
+        width: 100px;
+        height: 50px;
+
+    }
+
+    .search {
+        position: absolute;
+        top: 8px;
+        left: 500px;
+
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: 宋体;
+    }
+
+    .slide-btn {
+        width: 100px;
+        display: inline-block;
+        border: 1px solid;
+        border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    .slide-btn .inner-on,
+    .slide-btn .inner-off {
+        width: 151px;
+        box-sizing: border-box;
+        display: inline-block;
+        position: relative;
+        left: 0;
+        cursor: pointer;
+        transition: left 0.5s;
+    }
+
+    .inner-on .left,
+    .inner-off .left {
+        width: 50px;
+        color: #fff;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+        background: #b80909;
+        text-align: center;
+        display: inline-block;
+        padding: 4px 0;
+    }
+
+    .inner-on .space,
+    .inner-off .space {
+        width: 51px;
+        display: inline-block;
+        box-sizing: border-box;
+        padding: 4px 0;
+        color: #fff;
+        background-color: #f5f5f5;
+        border-left: 1px solid #cccccc;
+        border-right: 1px solid #cccccc;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+        background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+        border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    }
+
+    .inner-on .right,
+    .inner-off .right {
+        width: 50px;
+        color: #fff;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+        background: #58b058;
+        text-align: center;
+        display: inline-block;
+        padding: 4px 0;
+    }
+
+</style>
+
+<body>
+<div class="top">
+
+    <!-- <div class="top_right">
+        <button type="button" class="btn btn-success" @click="add" v-if="item.enabled=='1'">全部禁用
+        </button>
+        </button>
+    </div> -->
+
+    <div class="search">
+        <form class="bs-example bs-example-form" role="form">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="请输入用户名">
+                        <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <span class="glyphicon glyphicon-search"></span>搜索</button>
+                            </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</div>
+</div>
+<div id="app">
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <!-- <th><input type="checkbox" id="sel" value="select" v-model="checkedNames" /></th> -->
+            <th>用户名</th>
+            <th>昵称</th>
+            <th>邮箱</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody id="#j_tb">
+        <tr v-for="item in list" :key="item.userId">
+            <!-- <th><input type="checkbox" id="one" value="select" v-model="checkedNames" /></th> -->
+            <th>{{ item.username }}</th>
+            <th>{{ item.userNickname}}</th>
+            <th>{{ item.userEmail}}</th>
+            <th> <input type="button" value="禁用"  @click="add(item.userId)" v-if="item.enabled=='1'"
+                        class="btn btn-success">
+                <input type="button" value="启用" @click="add(item.userId)" v-else class="btn btn-danger">
+            </th>
+
+</div>
+</tr>
+</tbody>
+</table>
+</div>
+<ul class="pager">
+    <li class="previous"><a href="#">上一页</a></li>
+    <li class="next"><a href="#">下一页</a></li>
+</ul>
+</body>
+
+</html>
+<script>
+    var vm = new Vue({
+            el: '#app',
+            data: {
+                list: [
+                ],
+                checkedNames: '',
+
+            },
+            created() {
+                this.getAllList()
+            },
+            methods: {
+
+
+
+                add(userId) {
+                    this.$http.get('/note/admin/userControl?userId='+userId).then(result => {
+                        if (result.body.status === 1) {
+                        alert('已禁用此用户！')
+                        this.getAllList()
+                    } else {
+                        // alert('！')
+                        // alert('已取消禁用！'
+                    }
+                })
+                },
+
+
+
+                getAllList() {
+                    this.$http.get('/note/admin/getAllUser').then(result => {
+                        if (result.body.status === 1) {
+                        this.list = result.body.data
+                    } else {
+                        alert('获取数据失败！')
+                    }
+                })
+                }
+            },
+
+
+        }
+
+
+    );
+</script>

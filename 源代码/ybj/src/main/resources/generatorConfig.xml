@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<classPathEntry
+		location="D:\sql\mysql-connector-java-5.1.41-bin.jar" />
+	<context id="ybj" targetRuntime="MyBatis3">
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<!-- 配置数据库连接 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://106.14.145.180/cloud_note?useUnicode=true&amp;characterEncoding=UTF-8"
+			userId="root" password="admin">
+		</jdbcConnection>
+
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!-- 指定javaBean生成的位置 -->
+		<javaModelGenerator targetPackage="com.sx.ybj.pojo"
+			targetProject="F:\IDE\Test\ybj\src\main\java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<!--指定sql映射文件生成的位置 -->
+		<sqlMapGenerator targetPackage="com.sx.ybj.mapper"
+			targetProject="F:\IDE\Test\ybj\src\main\java">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<!-- 指定dao接口生成的位置，mapper接口 -->
+		<javaClientGenerator type="XMLMAPPER"
+							 targetPackage="com.sx.ybj.mapper" targetProject="F:\IDE\Test\ybj\src\main\java">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+         <!--<table tableName="user" domainObjectName="User"-->
+      <!--enableCountByExample="true" enableDeleteByExample="true"-->
+      <!--enableSelectByExample="true" enableUpdateByExample="true" >-->
+      <!--</table>-->
+
+		<!--<table tableName="roles" domainObjectName="Roles"-->
+			   <!--enableCountByExample="true" enableDeleteByExample="true"-->
+			   <!--enableSelectByExample="true" enableUpdateByExample="true" >-->
+		<!--</table>-->
+		<!--<table tableName="roles_user" domainObjectName="Roles_user"-->
+			   <!--enableCountByExample="true" enableDeleteByExample="true"-->
+			   <!--enableSelectByExample="true" enableUpdateByExample="true" >-->
+		<!--</table>-->
+		<!--<table tableName="activity" domainObjectName="Activity"-->
+			   <!--enableCountByExample="true" enableDeleteByExample="true"-->
+			   <!--enableSelectByExample="true" enableUpdateByExample="true" >-->
+			<!--<columnOverride column="activity_content"  jdbcType="VARCHAR"/>-->
+		<!--</table>-->
+		<!--<table tableName="notebook" domainObjectName="Notebook"-->
+			   <!--enableCountByExample="true" enableDeleteByExample="true"-->
+			   <!--enableSelectByExample="true" enableUpdateByExample="true" >-->
+		<!--</table>-->
+		<!--<table tableName="categorize" domainObjectName="Categorize"-->
+			   <!--enableCountByExample="true" enableDeleteByExample="true"-->
+			   <!--enableSelectByExample="true" enableUpdateByExample="true" >-->
+
+			<!--<generatedKey column="categorize_id" sqlStatement="MySql" identity="true" />-->
+		<!--</table>-->
+
+		<table tableName="notebook" domainObjectName="Notebook"
+		enableCountByExample="true" enableDeleteByExample="true"
+		enableSelectByExample="true" enableUpdateByExample="true" >
+		<generatedKey column="notebook_id" sqlStatement="MySql" identity="true" />
+
+		<columnOverride column="notebook_content"  jdbcType="VARCHAR"/>
+		<columnOverride column="notebook_abstract"  jdbcType="VARCHAR"/>
+
+		</table>
+		<!--<table tableName="feedback" domainObjectName="Feedback"-->
+		<!--enableCountByExample="true" enableDeleteByExample="true"-->
+		<!--enableSelectByExample="true" enableUpdateByExample="true" >-->
+		<!--<columnOverride column="feedback_content"  jdbcType="VARCHAR"/>-->
+
+
+	</context>
+</generatorConfiguration>
